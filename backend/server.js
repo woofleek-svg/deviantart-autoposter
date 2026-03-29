@@ -5,6 +5,7 @@ const cron = require('node-cron');
 const db = require('./database');
 const PostingOrchestrator = require('./services/PostingOrchestrator');
 const { systemLogger } = require('./utils/logger');
+const { escapeHtml } = require('./utils/security');
 require('dotenv').config();
 
 const app = express();
@@ -402,8 +403,8 @@ app.get('/api/instagram/oauth/callback', async (req, res) => {
         <body>
           <div class="error">
             <h1>❌ Authorization Failed</h1>
-            <p><strong>Error:</strong> ${error}</p>
-            <p><strong>Description:</strong> ${error_description || 'No description provided'}</p>
+            <p><strong>Error:</strong> ${escapeHtml(error)}</p>
+            <p><strong>Description:</strong> ${escapeHtml(error_description) || 'No description provided'}</p>
             <p><a href="/api/instagram/oauth/start">Try Again</a></p>
           </div>
         </body>
@@ -484,12 +485,12 @@ app.get('/api/instagram/oauth/callback', async (req, res) => {
         <body>
           <div class="success">
             <h1>✅ Instagram Connected Successfully!</h1>
-            <p><strong>User ID:</strong> ${userId}</p>
+            <p><strong>User ID:</strong> ${escapeHtml(userId)}</p>
             <p>Your Instagram account has been authorized and a long-lived access token has been generated.</p>
 
             <h3>📝 Update your .env file:</h3>
             <div class="code-block">
-              <code>INSTAGRAM_USER_ID=${userId}</code>
+              <code>INSTAGRAM_USER_ID=${escapeHtml(userId)}</code>
             </div>
 
             <div class="warning">
@@ -520,7 +521,7 @@ app.get('/api/instagram/oauth/callback', async (req, res) => {
         <body>
           <div class="error">
             <h1>❌ Token Exchange Failed</h1>
-            <p><strong>Error:</strong> ${error.message}</p>
+            <p><strong>Error:</strong> ${escapeHtml(error.message)}</p>
             <p>Please check your App ID and App Secret in .env file.</p>
             <p><a href="/api/instagram/oauth/start">Try Again</a></p>
           </div>
