@@ -138,6 +138,7 @@ async function migrateSQLiteToMySQL() {
 
       } catch (error) {
         console.error(`❌ Failed to migrate batch starting at index ${i}:`, error.message);
+        throw error; // Re-throw to prevent silent data loss and halt migration
       }
 
       // Progress update
