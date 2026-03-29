@@ -113,32 +113,31 @@ async function migrateSQLiteToMySQL() {
     for (let i = 0; i < sqliteRecords.length; i += BATCH_SIZE) {
       const batch = sqliteRecords.slice(i, i + BATCH_SIZE);
 
-      for (const record of batch) {
-        try {
-          // Insert record into MySQL, ignoring duplicates
-          const [result] = await mysqlConnection.execute(
-            `INSERT IGNORE INTO posted_artwork (id, deviantart_id, deviantart_url, tumblr_post_id, artist_username, title, posted_at)
-             VALUES (?, ?, ?, ?, ?, ?, ?)`,
-            [
-              record.id,
-              record.deviantart_id,
-              record.deviantart_url,
-              record.tumblr_post_id,
-              record.artist_username,
-              record.title,
-              record.posted_at
-            ]
-          );
+      try {
+        // Prepare values for bulk insert
+        const values = batch.map(record => [
+          record.id,
+          record.deviantart_id,
+          record.deviantart_url,
+          record.tumblr_post_id,
+          record.artist_username,
+          record.title,
+          record.posted_at
+        ]);
 
-          if (result.affectedRows > 0) {
-            migratedCount++;
-          } else {
-            skippedCount++;
-          }
+        // Insert records into MySQL in bulk, ignoring duplicates
+        // Note: mysql2/promise .query() supports bulk insert with [values]
+        const [result] = await mysqlConnection.query(
+          `INSERT IGNORE INTO posted_artwork (id, deviantart_id, deviantart_url, tumblr_post_id, artist_username, title, posted_at)
+           VALUES ?`,
+          [values]
+        );
 
-        } catch (error) {
-          console.error(`❌ Failed to migrate record ${record.id}:`, error.message);
-        }
+        migratedCount += result.affectedRows;
+        skippedCount += (batch.length - result.affectedRows);
+
+      } catch (error) {
+        console.error(`❌ Failed to migrate batch starting at index ${i}:`, error.message);
       }
 
       // Progress update
