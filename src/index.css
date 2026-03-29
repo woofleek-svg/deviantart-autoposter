@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #F9F6EE;
+    background-image:
+      url('/background.jpg'),
+      radial-gradient(circle at 20% 80%, rgba(120, 138, 104, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(168, 79, 79, 0.1) 0%, transparent 50%),
+      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background-repeat: repeat, no-repeat, no-repeat, repeat;
+    background-size: 300px 300px, auto, auto, auto;
+    background-position: center center, 20% 80%, 80% 20%, 0 0;
+    font-family: 'Roboto Slab', serif;
+    color: #212121;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Permanent Marker', cursive;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+  }
+}
+
+@layer components {
+  .comic-border {
+    @apply border-4 border-ink shadow-comic;
+  }
+  
+  .comic-button {
+    @apply bg-slime-green text-ink font-comic text-xl px-6 py-3 border-4 border-ink shadow-comic transform transition-all duration-150 hover:translate-x-1 hover:translate-y-1 hover:shadow-none;
+  }
+  
+  .comic-card {
+    @apply bg-paper border-4 border-ink shadow-comic p-6 transform rotate-1;
+  }
+  
+  .paper-texture {
+    background-image: 
+      radial-gradient(circle at 25% 25%, rgba(0,0,0,0.1) 1px, transparent 1px),
+      radial-gradient(circle at 75% 75%, rgba(0,0,0,0.05) 1px, transparent 1px);
+    background-size: 20px 20px, 30px 30px;
+  }
+  
+  .ink-stain {
+    background: radial-gradient(ellipse at center, rgba(33,33,33,0.1) 0%, transparent 70%);
+  }
+}
+
+@layer utilities {
+  .text-comic {
+    font-family: 'Permanent Marker', cursive;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+  }
+  
+  .text-rough {
+    font-family: 'Creepster', cursive;
+  }
+  
+  .text-newsprint {
+    font-family: 'Roboto Slab', serif;
+  }
+  
+  .text-typewriter {
+    font-family: 'Special Elite', monospace;
+  }
+}

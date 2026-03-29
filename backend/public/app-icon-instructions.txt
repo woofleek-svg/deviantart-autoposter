@@ -1,0 +1,17 @@
+App Icon Instructions for Facebook App
+=======================================
+
+You need a 1024x1024 pixel PNG image for your app icon.
+
+Quick Options:
+1. Use an online tool like Canva (canva.com) to create one
+2. Use any image of your dad's artwork and resize it to 1024x1024
+3. Create a simple text-based icon with the letters "ZMAN"
+
+The icon just needs to be:
+- 1024 x 1024 pixels
+- PNG format
+- Representative of your app/art
+
+This is mainly for display in the Facebook/Instagram app directory.
+You can change it later if needed.
